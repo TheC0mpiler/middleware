@@ -14,6 +14,7 @@ module MetaServer
     interface IMetaServer
     {
         SongSeq searchMusic(string name, string author, string album);
+        void startStreaming(string name, string author, string album);
         void connectToMe(string port);
         void deconnectMe(string port);
     };

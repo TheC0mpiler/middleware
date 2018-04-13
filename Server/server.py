@@ -6,13 +6,41 @@ Ice.loadSlice('../meta-server.ice')
 import Server
 import MetaServer
 
+import vlc
+import time
+
 class IServer(Server.IServer):
 
 	musics = list()
 
+	def findSongPath(name,author,album):
+		for music in musics:
+			if music.name == name and music.author == author and music.album == album:
+				return music.path
+		return None	
 	def searchMusic(self,name,author,album,current):
 		print(self.musics)
 		return self.musics
+	
+	def startStreaming(self,name,author,album,current):
+		for music in self.musics:
+			if music.name == name and music.author == author and music.album == album:
+				path = music.path
+
+		instance = vlc.Instance()
+
+		#Create a MediaPlayer with the default instance
+		player = instance.media_player_new()
+
+		#Load the media file
+		media = instance.media_new('music/basique.mp3')
+
+		#Add the media to the player
+		player.set_media(media)
+
+		#Play for 10 seconds then exit
+		player.play()
+		time.sleep(10)
 	
 	def addMusic(self,fileName,current):
 		f = open("../Client-Admin/"+fileName)
@@ -21,8 +49,8 @@ class IServer(Server.IServer):
 		for line in lines:
 			line = line.rstrip()
 			line = line.split("|")
-			shutil.copy2('../Client-Admin/'+line[3], 'music')
-			tmp = Server.Song(line[0],line[1],line[2],line[3],line[4],int(line[5]))
+			shutil.copy2('../Client-Admin/'+line[3], "music/"+line[3])
+			tmp = Server.Song(line[0],line[1],line[2],"music/"+line[3],line[4],int(line[5]))
 			self.musics.append(tmp)
 		print("music added !")
 

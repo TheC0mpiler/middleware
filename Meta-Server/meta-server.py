@@ -31,6 +31,14 @@ class IMetaServer(MetaServer.IMetaServer):
 					musics.append(MetaServer.Song(music.name,music.author,music.album,music.path,music.cover,music.duration))
 
 		return musics	
+	def startStreaming(self,name,author,album,current):
+		with Ice.initialize(sys.argv) as communicator:
+			for server in self.servers:
+				base = communicator.stringToProxy("Server:default -p "+server)
+				connection = Server.IServerPrx.checkedCast(base)
+				if not server:
+				    raise RuntimeError("Invalid proxy")
+				connection.startStreaming(name,author,album)
 
 	def connectToMe(self,port,current):
 	

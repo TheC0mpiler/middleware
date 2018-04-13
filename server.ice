@@ -14,6 +14,7 @@ module Server
     interface IServer
     {
         SongSeq searchMusic(string name, string author, string album);
+        void startStreaming(string name, string author, string album);
         void addMusic(string fileName);
     };
 };

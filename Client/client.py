@@ -11,5 +11,5 @@ with Ice.initialize(sys.argv) as communicator:
     if not metaServer:
         raise RuntimeError("Invalid proxy")
 
-    musics = metaServer.searchMusic("aze","aze","aze")
+    musics = metaServer.startStreaming("aze","aze","aze")
     print(musics)
