@@ -12,36 +12,52 @@ import time
 class IServer(Server.IServer):
 
 	musics = list()
+	vlc_instance = None
+	vlc_player = None
+	options = None
 
-	def findSongPath(name,author,album):
-		for music in musics:
-			if music.name == name and music.author == author and music.album == album:
-				return music.path
-		return None	
-	def searchMusic(self,name,author,album,current):
-		print(self.musics)
-		return self.musics
-	
-	def startStreaming(self,name,author,album,current):
+	def __init__(self):
+		self.vlc_instance = vlc.Instance()
+		self.vlc_player = self.vlc_instance.media_player_new()
+		self.options = 'sout=#transcode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100}:rtp{sdp=rtsp://:8554/}'
+        
+	def findSongPath(self,name,author,album,current):
 		for music in self.musics:
 			if music.name == name and music.author == author and music.album == album:
-				path = music.path
-
-		instance = vlc.Instance()
-
-		#Create a MediaPlayer with the default instance
-		player = instance.media_player_new()
-
-		#Load the media file
-		media = instance.media_new('music/basique.mp3')
-
-		#Add the media to the player
-		player.set_media(media)
-
-		#Play for 10 seconds then exit
-		player.play()
-		time.sleep(10)
+				print(music)
+				return music.path
+		print("yea")
+		return None	
 	
+	def searchMusic(self,name,author,album,current):
+		res = None
+		for music in self.musics:
+			if ( ( music.name == name ) or ( name == "" ) )  and ( ( music.author == author ) or ( author == "" ) ) and ( ( music.album == album ) or ( album == "" ) ) :
+				res.append(music)
+		return res
+
+	def setMusic(self,path):
+		#Load the media file
+		media = self.vlc_instance.media_new(path,self.options)
+		
+		#Add the media to the player
+		self.vlc_player.set_media(media)
+
+	def startStreaming(self,name,author,album,current):
+		path = self.findSongPath(name,author,album,current)
+		if path != None:
+			self.setMusic(path)
+			print("I Start Streaming")
+			self.play(current	)
+		
+	def play(self,current):
+		self.vlc_player.play()
+
+	def pause(self,current):
+		self.vlc_player.pause()
+
+
+
 	def addMusic(self,fileName,current):
 		f = open("../Client-Admin/"+fileName)
 		lines =  f.readlines()

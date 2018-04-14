@@ -1,4 +1,5 @@
-import sys, Ice
+# -*- coding: utf-8 -*-
+import sys, Ice ,time
 
 
 Ice.loadSlice('../meta-server.ice')
@@ -11,5 +12,6 @@ with Ice.initialize(sys.argv) as communicator:
     if not metaServer:
         raise RuntimeError("Invalid proxy")
 
-    musics = metaServer.startStreaming("aze","aze","aze")
-    print(musics)
+    metaServer.startStreaming("Basique","Orelsan","La fête est finie");
+
+    

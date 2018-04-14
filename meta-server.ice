@@ -17,5 +17,7 @@ module MetaServer
         void startStreaming(string name, string author, string album);
         void connectToMe(string port);
         void deconnectMe(string port);
+        void play();
+        void pause();
     };
 };

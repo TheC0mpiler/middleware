@@ -15,6 +15,9 @@ module Server
     {
         SongSeq searchMusic(string name, string author, string album);
         void startStreaming(string name, string author, string album);
+        string findSongPath(string name, string author, string album);
         void addMusic(string fileName);
+        void play();
+        void pause();
     };
 };

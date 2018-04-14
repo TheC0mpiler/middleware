@@ -9,7 +9,9 @@ import MetaServer
 
 class IMetaServer(MetaServer.IMetaServer):
 	servers = list()
+	streamServer = None
 	def searchMusic(self,name,author,album,current):
+		print("Search Music")
 		with Ice.initialize(sys.argv) as communicator:
 		    
 			responses = list()
@@ -36,12 +38,41 @@ class IMetaServer(MetaServer.IMetaServer):
 			for server in self.servers:
 				base = communicator.stringToProxy("Server:default -p "+server)
 				connection = Server.IServerPrx.checkedCast(base)
-				if not server:
+				if not connection:
 				    raise RuntimeError("Invalid proxy")
-				connection.startStreaming(name,author,album)
+
+				async = connection.begin_findSongPath(name,author,album)
+				ok = connection.end_findSongPath(async)
+				print(name+" "+author+" "+album)
+				print(ok)
+				if ok != None:
+					self.streamServer = server
+					print("Start streaming on server "+self.streamServer)
+					connection.startStreaming(name,author,album)
+					break
+
+	def play(self,current):
+		if self.streamServer != None :
+			with Ice.initialize(sys.argv) as communicator:
+				base = communicator.stringToProxy("Server:default -p "+self.streamServer)
+				connection = Server.IServerPrx.checkedCast(base)
+				if not connection:
+				    raise RuntimeError("Invalid proxy")
+				print("Play server "+self.streamServer)
+				connection.play()
+	
+	def pause(self,current):
+		if self.streamServer != None :
+			with Ice.initialize(sys.argv) as communicator:
+				base = communicator.stringToProxy("Server:default -p "+self.streamServer)
+				connection = Server.IServerPrx.checkedCast(base)
+				if not connection:
+				    raise RuntimeError("Invalid proxy")
+				print("Pause server "+self.streamServer)
+				connection.pause()
+			
 
 	def connectToMe(self,port,current):
-	
 		self.servers.append(port)
 		print(self.servers)
 	
