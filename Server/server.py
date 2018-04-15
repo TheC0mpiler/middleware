@@ -26,11 +26,10 @@ class IServer(Server.IServer):
 			if music.name == name and music.author == author and music.album == album:
 				print(music)
 				return music.path
-		print("yea")
 		return None	
 	
 	def searchMusic(self,name,author,album,current):
-		res = None
+		res = list()
 		for music in self.musics:
 			if ( ( music.name == name ) or ( name == "" ) )  and ( ( music.author == author ) or ( author == "" ) ) and ( ( music.album == album ) or ( album == "" ) ) :
 				res.append(music)
