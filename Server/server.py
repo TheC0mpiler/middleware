@@ -42,18 +42,19 @@ class IServer(Server.IServer):
 		#Add the media to the player
 		self.vlc_player.set_media(media)
 
-	def startStreaming(self,name,author,album,current):
+	def startStreaming(self,name,author,album,time,current):
 		path = self.findSongPath(name,author,album,current)
 		if path != None:
 			self.setMusic(path)
 			print("I Start Streaming")
-			self.play(current	)
+			self.play(time,current)
 		
-	def play(self,current):
+	def play(self,time,current):
 		self.vlc_player.play()
+		self.vlc_player.set_time(time)
 
 	def pause(self,current):
-		self.vlc_player.pause()
+		self.vlc_player.release()
 
 
 

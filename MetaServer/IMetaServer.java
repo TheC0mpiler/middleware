@@ -24,9 +24,15 @@ public interface IMetaServer extends com.zeroc.Ice.Object
 {
     Song[] searchMusic(String name, String author, String album, com.zeroc.Ice.Current current);
 
+    void startStreaming(String name, String author, String album, int time, com.zeroc.Ice.Current current);
+
     void connectToMe(String port, com.zeroc.Ice.Current current);
 
     void deconnectMe(String port, com.zeroc.Ice.Current current);
+
+    void play(com.zeroc.Ice.Current current);
+
+    void pause(com.zeroc.Ice.Current current);
 
     static final String[] _iceIds =
     {
@@ -69,6 +75,23 @@ public interface IMetaServer extends com.zeroc.Ice.Object
         return inS.setResult(ostr);
     }
 
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_startStreaming(IMetaServer obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    {
+        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
+        com.zeroc.Ice.InputStream istr = inS.startReadParams();
+        String iceP_name;
+        String iceP_author;
+        String iceP_album;
+        int iceP_time;
+        iceP_name = istr.readString();
+        iceP_author = istr.readString();
+        iceP_album = istr.readString();
+        iceP_time = istr.readInt();
+        inS.endReadParams();
+        obj.startStreaming(iceP_name, iceP_author, iceP_album, iceP_time, current);
+        return inS.setResult(inS.writeEmptyParams());
+    }
+
     static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_connectToMe(IMetaServer obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
     {
         com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
@@ -91,6 +114,22 @@ public interface IMetaServer extends com.zeroc.Ice.Object
         return inS.setResult(inS.writeEmptyParams());
     }
 
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_play(IMetaServer obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    {
+        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
+        inS.readEmptyParams();
+        obj.play(current);
+        return inS.setResult(inS.writeEmptyParams());
+    }
+
+    static java.util.concurrent.CompletionStage<com.zeroc.Ice.OutputStream> _iceD_pause(IMetaServer obj, final com.zeroc.IceInternal.Incoming inS, com.zeroc.Ice.Current current)
+    {
+        com.zeroc.Ice.Object._iceCheckMode(null, current.mode);
+        inS.readEmptyParams();
+        obj.pause(current);
+        return inS.setResult(inS.writeEmptyParams());
+    }
+
     final static String[] _iceOps =
     {
         "connectToMe",
@@ -99,7 +138,10 @@ public interface IMetaServer extends com.zeroc.Ice.Object
         "ice_ids",
         "ice_isA",
         "ice_ping",
-        "searchMusic"
+        "pause",
+        "play",
+        "searchMusic",
+        "startStreaming"
     };
 
     @Override
@@ -140,7 +182,19 @@ public interface IMetaServer extends com.zeroc.Ice.Object
             }
             case 6:
             {
+                return _iceD_pause(this, in, current);
+            }
+            case 7:
+            {
+                return _iceD_play(this, in, current);
+            }
+            case 8:
+            {
                 return _iceD_searchMusic(this, in, current);
+            }
+            case 9:
+            {
+                return _iceD_startStreaming(this, in, current);
             }
         }
 

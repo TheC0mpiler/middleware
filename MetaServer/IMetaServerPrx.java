@@ -57,6 +57,38 @@ public interface IMetaServerPrx extends com.zeroc.Ice.ObjectPrx
         return f;
     }
 
+    default void startStreaming(String name, String author, String album, int time)
+    {
+        startStreaming(name, author, album, time, com.zeroc.Ice.ObjectPrx.noExplicitContext);
+    }
+
+    default void startStreaming(String name, String author, String album, int time, java.util.Map<String, String> context)
+    {
+        _iceI_startStreamingAsync(name, author, album, time, context, true).waitForResponse();
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> startStreamingAsync(String name, String author, String album, int time)
+    {
+        return _iceI_startStreamingAsync(name, author, album, time, com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> startStreamingAsync(String name, String author, String album, int time, java.util.Map<String, String> context)
+    {
+        return _iceI_startStreamingAsync(name, author, album, time, context, false);
+    }
+
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_startStreamingAsync(String iceP_name, String iceP_author, String iceP_album, int iceP_time, java.util.Map<String, String> context, boolean sync)
+    {
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "startStreaming", null, sync, null);
+        f.invoke(false, context, null, ostr -> {
+                     ostr.writeString(iceP_name);
+                     ostr.writeString(iceP_author);
+                     ostr.writeString(iceP_album);
+                     ostr.writeInt(iceP_time);
+                 }, null);
+        return f;
+    }
+
     default void connectToMe(String port)
     {
         connectToMe(port, com.zeroc.Ice.ObjectPrx.noExplicitContext);
@@ -112,6 +144,60 @@ public interface IMetaServerPrx extends com.zeroc.Ice.ObjectPrx
         f.invoke(false, context, null, ostr -> {
                      ostr.writeString(iceP_port);
                  }, null);
+        return f;
+    }
+
+    default void play()
+    {
+        play(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+    }
+
+    default void play(java.util.Map<String, String> context)
+    {
+        _iceI_playAsync(context, true).waitForResponse();
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> playAsync()
+    {
+        return _iceI_playAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> playAsync(java.util.Map<String, String> context)
+    {
+        return _iceI_playAsync(context, false);
+    }
+
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_playAsync(java.util.Map<String, String> context, boolean sync)
+    {
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "play", null, sync, null);
+        f.invoke(false, context, null, null, null);
+        return f;
+    }
+
+    default void pause()
+    {
+        pause(com.zeroc.Ice.ObjectPrx.noExplicitContext);
+    }
+
+    default void pause(java.util.Map<String, String> context)
+    {
+        _iceI_pauseAsync(context, true).waitForResponse();
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> pauseAsync()
+    {
+        return _iceI_pauseAsync(com.zeroc.Ice.ObjectPrx.noExplicitContext, false);
+    }
+
+    default java.util.concurrent.CompletableFuture<Void> pauseAsync(java.util.Map<String, String> context)
+    {
+        return _iceI_pauseAsync(context, false);
+    }
+
+    default com.zeroc.IceInternal.OutgoingAsync<Void> _iceI_pauseAsync(java.util.Map<String, String> context, boolean sync)
+    {
+        com.zeroc.IceInternal.OutgoingAsync<Void> f = new com.zeroc.IceInternal.OutgoingAsync<>(this, "pause", null, sync, null);
+        f.invoke(false, context, null, null, null);
         return f;
     }
 
