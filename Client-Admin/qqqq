@@ -1,0 +1,78 @@
+VLC(1)                                                                                  General Commands Manual                                                                                 VLC(1)
+
+NNAAMMEE
+       vlc, qvlc, svlc, nvlc, rvlc, cvlc - the VLC media player
+
+SSYYNNOOPPSSIISS
+       vvllcc [_O_P_T_I_O_N_S] [_I_T_E_M_S]...
+
+DDEESSCCRRIIPPTTIIOONN
+       This manual page documents briefly the VVLLCC multimedia player and server.
+
+OOPPTTIIOONNSS
+       VVLLCC follows the usual GNU command line syntax, with long options starting with two dashes (`-').  For a precise description of options, please use "vlc --help".
+
+       The  complete  list of VVLLCC options depends on what plugins are installed because they automatically add their own options. Please use "vlc --longhelp --advanced" for a complete list of avail‐
+       able options.
+
+IITTEEMMSS
+       VVLLCC recognizes several URL-style items:
+
+       **..mmppgg,, **..vvoobb,, **..aavvii,, **..mmpp33,, **..oogggg,, **..ooppuuss
+              Various multimedia file formats
+
+       ddvvdd::////[[<<ddeevviiccee>>]][[@@<<rraaww ddeevviiccee>>]][[##[[<<ttiittllee>>]][[::[[<<cchhaapptteerr>>]][[::<<aannggllee>>]]]]]]
+              DVD device (for instance dvd:///dev/dvd). The raw device is optional and must have been prepared beforehand.
+
+       vvccdd::////[[<<ddeevviiccee>>]][[@@{{EE||PP||EE||TT||SS}}[[<<nnuummbbeerr>>]]]]
+              VCD device (for instance vcd:///dev/cdrom).
+
+       uuddpp::////[[@@[[<<mmuullttiiccaasstt aaddddrreessss>>]][[::<<llooccaall ppoorrtt>>]]]]
+              UDP stream, such as one sent by VLS or another VLC.  Usually "udp://" is enough.
+
+       hhttttpp::////<<sseerrvveerr aaddddrreessss>>[[::<<sseerrvveerr ppoorrtt>>]]//[[<<ffiillee>>]]
+              HTTP stream
+
+       rrttsspp::////<<sseerrvveerr aaddddrreessss>>[[::<<sseerrvveerr ppoorrtt>>]]//<<ssttrreeaamm nnaammee>>
+              RTSP Video On Demand stream
+
+       vvllcc::////<<ccoommmmaanndd>>
+              Execute a playlist command. Commands are: ppaauussee (pause execution of other items), and qquuiitt (close VLC).
+
+EENNVVIIRROONNMMEENNTT VVAARRIIAABBLLEESS
+       The following environment variables may affect VLC:
+
+       DDIISSPPLLAAYY
+              The X11 display server address.
+
+       hhttttpp__pprrooxxyy
+              The HTTP proxy server URL.
+
+       OOSSSSAAUUDDIIOO__DDEEVV
+              The default audio output device, used by the OSSv4 output plugin.
+
+       VVLLCC__DDAATTAA__PPAATTHH
+              The directory containing VLC run-time data files (e.g. /usr/share/vlc).
+
+       VVLLCC__PPLLUUGGIINN__PPAATTHH
+              An extra directory to load VLC plugins from.
+
+       VVLLCC__VVEERRBBOOSSEE
+              The level of verbosity for log messages (0: silent, 1: error/info, 2: warning, 3: debug).
+
+       XXDDGG__CCAACCHHEE__DDIIRR XXDDGG__CCOONNFFIIGG__DDIIRR XXDDGG__DDAATTAA__DDIIRR
+              The directories to store user cached data, user configuration files and user data files respectively.
+
+       XXDDGG__DDOOCCUUMMEENNTTSS__DDIIRR XXDDGG__DDOOWWNNLLOOAADD__DDIIRR XXDDGG__MMUUSSIICC__DDIIRR XXDDGG__PPIICCTTUURREESS__DDIIRR XXDDGG__VVIIDDEEOO__DDIIRR
+              The directories to fetch or store user text files, downloads, music, pictures (i.e. snapshots), and video respectively.
+
+       XXDDGG__SSEESSSSIIOONN__CCOOOOKKIIEE
+              The unique identifier of the desktop session, used by the PulseAudio output plugin.
+
+SSEEEE AALLSSOO
+       Online documentation: http://www.videolan.org/doc/
+
+AAUUTTHHOORR
+       This manual page was written by Sam Hocevar <sam@zoy.org>, for the Debian GNU/Linux system (but may be used by others).
+
+                                                                                             Feb 14, 2005                                                                                       VLC(1)
