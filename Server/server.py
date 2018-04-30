@@ -19,7 +19,11 @@ class IServer(Server.IServer):
 	def __init__(self):
 		self.vlc_instance = vlc.Instance()
 		self.vlc_player = self.vlc_instance.media_player_new()
+<<<<<<< HEAD
 		self.options = 'sout=#transcode{ab=128,channels=2,samplerate=44100}:rtp{sdp=rtsp://:8554/}'
+=======
+		self.options = 'sout=#transcode{vcodec=h264,acodec=mpga,ab=128,channels=2,samplerate=44100}:rtp{sdp=rtsp://:8554/}'
+>>>>>>> bb4c14bf5be3145d94f84aeb73afbb8d795f2c97
         
 	def findSongPath(self,name,author,album,current):
 		for music in self.musics:
@@ -51,7 +55,11 @@ class IServer(Server.IServer):
 		
 	def play(self,time,current):
 		self.vlc_player.play()
+<<<<<<< HEAD
 		#self.vlc_player.set_time(time)
+=======
+		self.vlc_player.set_time(time)
+>>>>>>> bb4c14bf5be3145d94f84aeb73afbb8d795f2c97
 
 	def pause(self,current):
 		self.vlc_player.release()
@@ -75,6 +83,7 @@ def signal_handler(signal, frame):
 	metaServer.deconnectMe(str(port))
 	sys.exit(0)
 
+<<<<<<< HEAD
 communicator = Ice.initialize(sys.argv)
 err = True
 port = 10000
@@ -102,3 +111,32 @@ if not metaServer:
 metaServer.connectToMe(str(port))
 signal.signal(signal.SIGINT, signal_handler)
 communicator.waitForShutdown()
+=======
+with Ice.initialize(sys.argv) as communicator:
+	err = True
+	port = 10000
+	name = "Server"
+	while err :
+	    try :
+	        err = False
+	        adapter = communicator.createObjectAdapterWithEndpoints("ServerAdapter", "default -p "+str(port))
+	    except :
+	        err = True
+	        port += 1
+	object = IServer()
+	adapter.add(object, communicator.stringToIdentity("Server"))
+	adapter.activate()
+
+
+	print(name+":"+"default -p "+str(port))
+
+
+	base = communicator.stringToProxy("MetaServer:default -p 10000")
+	metaServer = MetaServer.IMetaServerPrx.checkedCast(base)
+	if not metaServer:
+	    raise RuntimeError("Invalid proxy")
+
+	metaServer.connectToMe(str(port))
+	signal.signal(signal.SIGINT, signal_handler)
+	communicator.waitForShutdown()
+>>>>>>> bb4c14bf5be3145d94f84aeb73afbb8d795f2c97
